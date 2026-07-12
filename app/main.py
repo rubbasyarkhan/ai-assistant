@@ -131,6 +131,14 @@ class JarvisAPI:
         # Return True/False if key exists
         return bool(self._agent.api_key)
 
+def get_resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 def datetime_str(timestamp):
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(timestamp))
 
@@ -147,8 +155,7 @@ def start_app():
         entry_url = "http://localhost:5173"
     else:
         # Resolve path to built HTML index file
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        entry_url = os.path.join(base_dir, "static", "index.html")
+        entry_url = get_resource_path("app/static/index.html")
         if not os.path.exists(entry_url):
             # Fallback if UI is not yet built
             entry_url = "data:text/html,<html><body style='background:#0d0e15;color:#00f0ff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;'><h2>JARVIS UI assets not found. Run npm build and place in app/static.</h2></body></html>"

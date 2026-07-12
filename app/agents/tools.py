@@ -92,7 +92,10 @@ def web_search(query: str) -> str:
 # File Management
 def get_workspace_path(filename: str) -> str:
     """Resolves filename to the workspace directory to ensure security."""
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    if hasattr(sys, 'frozen'):
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
     return os.path.abspath(os.path.join(base_dir, filename))
 
 def list_files(directory: str = ".") -> str:
