@@ -18,6 +18,9 @@ class JarvisAPI:
         self._agent = jarvis_agent
         self._logs = []
 
+    def set_window(self, window_ref):
+        self._window = window_ref
+
     def log(self, message):
         """Append log message and send it to the UI in real-time."""
         timestamp = time.strftime("%H:%M:%S")
@@ -160,20 +163,22 @@ def start_app():
             # Fallback if UI is not yet built
             entry_url = "data:text/html,<html><body style='background:#0d0e15;color:#00f0ff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;'><h2>JARVIS UI assets not found. Run npm build and place in app/static.</h2></body></html>"
 
-    # 4. Create Webview Window
-    # Size 1280x768, frameless option if desired, or standard window
+    # 4. Connect API bridge (instantiate first)
+    api_bridge = JarvisAPI(None, jarvis_agent)
+
+    # 5. Create Webview Window and register js_api
     window = webview.create_window(
         title="Nexus JARVIS OS v1.0",
         url=entry_url,
+        js_api=api_bridge,
         width=1280,
         height=800,
         min_size=(1024, 768),
         background_color="#0b0c10"
     )
 
-    # 5. Connect API bridge
-    api_bridge = JarvisAPI(window, jarvis_agent)
-    window.js_api = api_bridge
+    # Bind window reference to the API bridge
+    api_bridge.set_window(window)
 
     # 6. Setup Alarm Monitor Thread Callback
     def alarm_callback(alarm_dict):
