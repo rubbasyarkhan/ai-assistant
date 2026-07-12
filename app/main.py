@@ -29,7 +29,7 @@ class JarvisAPI:
         except Exception:
             pass
 
-    def processSpeech(self, query):
+    def processspeech(self, query):
         """Processes the voice query through Gemini."""
         self.log(f"User: {query}")
         
@@ -41,7 +41,7 @@ class JarvisAPI:
         self.log(f"JARVIS: {reply}")
         return reply
 
-    def getDiagnostics(self):
+    def getdiagnostics(self):
         """Fetches real-time system stats (CPU, RAM, etc.)."""
         try:
             stats = tools.get_system_diagnostics()
@@ -50,10 +50,10 @@ class JarvisAPI:
             return {"error": str(e)}
 
     # Database: Calendar
-    def listCalendarEvents(self):
+    def listcalendarevents(self):
         return db.list_events()
 
-    def addCalendarEvent(self, title, description, start_time, duration_minutes):
+    def addcalendarevent(self, title, description, start_time, duration_minutes):
         try:
             db.add_event(title, description, start_time, duration_minutes)
             self.log(f"Protocol: Event '{title}' added to database.")
@@ -61,7 +61,7 @@ class JarvisAPI:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    def deleteCalendarEvent(self, event_id):
+    def deletecalendarevent(self, event_id):
         try:
             db.delete_event(event_id)
             self.log(f"Protocol: Event {event_id} deleted.")
@@ -70,10 +70,10 @@ class JarvisAPI:
             return {"success": False, "error": str(e)}
 
     # Database: Alarms
-    def listAlarms(self):
+    def listalarms(self):
         return db.list_alarms()
 
-    def addAlarm(self, time_str, label):
+    def addalarm(self, time_str, label):
         try:
             db.add_alarm(time_str, label)
             self.log(f"Protocol: Alarm set for {time_str} ({label}).")
@@ -81,19 +81,19 @@ class JarvisAPI:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    def toggleAlarm(self, alarm_id, is_active):
+    def togglealarm(self, alarm_id, is_active):
         db.toggle_alarm(alarm_id, is_active)
         state = "activated" if is_active else "deactivated"
         self.log(f"Protocol: Alarm {alarm_id} {state}.")
         return {"success": True}
 
-    def deleteAlarm(self, alarm_id):
+    def deletealarm(self, alarm_id):
         db.delete_alarm(alarm_id)
         self.log(f"Protocol: Alarm {alarm_id} deleted.")
         return {"success": True}
 
     # Workspace Files
-    def getWorkspaceFiles(self):
+    def getworkspacefiles(self):
         try:
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
             files = os.listdir(base_dir)
@@ -121,13 +121,13 @@ class JarvisAPI:
             return []
 
     # Settings API
-    def setApiKey(self, api_key):
+    def setapikey(self, api_key):
         os.environ["GEMINI_API_KEY"] = api_key
         self._agent.update_key(api_key)
         self.log("System config updated: Gemini API Key registered.")
         return {"success": True}
 
-    def hasApiKey(self):
+    def hasapikey(self):
         # Return True/False if key exists
         return bool(self._agent.api_key)
 

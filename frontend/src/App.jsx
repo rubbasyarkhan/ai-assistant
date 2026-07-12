@@ -60,7 +60,7 @@ export default function App() {
           appendLog(`Voice Input Recognized: "${text}"`);
           
           if (window.pywebview && window.pywebview.api) {
-            const reply = await window.pywebview.api.processSpeech(text);
+            const reply = await window.pywebview.api.processspeech(text);
             speakResponse(reply);
           } else {
             // Demo Mode fallback
@@ -196,16 +196,16 @@ export default function App() {
   const syncData = async () => {
     if (!window.pywebview || !window.pywebview.api) return;
     try {
-      const filesList = await window.pywebview.api.getWorkspaceFiles();
+      const filesList = await window.pywebview.api.getworkspacefiles();
       setFiles(filesList);
 
-      const alarmsList = await window.pywebview.api.listAlarms();
+      const alarmsList = await window.pywebview.api.listalarms();
       setAlarms(alarmsList);
 
-      const eventsList = await window.pywebview.api.listCalendarEvents();
+      const eventsList = await window.pywebview.api.listcalendarevents();
       setEvents(eventsList);
 
-      const keyStatus = await window.pywebview.api.hasApiKey();
+      const keyStatus = await window.pywebview.api.hasapikey();
       setHasApiKey(keyStatus);
     } catch (err) {
       console.warn("Failed to sync backend metrics:", err);
@@ -216,7 +216,7 @@ export default function App() {
   const fetchDiagnostics = async () => {
     if (!window.pywebview || !window.pywebview.api) return;
     try {
-      const stats = await window.pywebview.api.getDiagnostics();
+      const stats = await window.pywebview.api.getdiagnostics();
       setDiagnostics(stats);
     } catch (err) {
       console.warn("Failed to fetch diagnostics:", err);
@@ -269,7 +269,7 @@ export default function App() {
     playSound('click');
     if (apiKey.trim()) {
       if (window.pywebview && window.pywebview.api) {
-        await window.pywebview.api.setApiKey(apiKey);
+        await window.pywebview.api.setapikey(apiKey);
       }
       setHasApiKey(true);
       setApiKey('');
@@ -285,7 +285,7 @@ export default function App() {
   const addAlarm = async (timeStr, label) => {
     playSound('click');
     if (window.pywebview && window.pywebview.api) {
-      await window.pywebview.api.addAlarm(timeStr, label);
+      await window.pywebview.api.addalarm(timeStr, label);
       syncData();
     } else {
       setAlarms(prev => [...prev, { id: Date.now(), time_str: timeStr, label, is_active: 1 }]);
@@ -295,7 +295,7 @@ export default function App() {
   const toggleAlarm = async (alarmId, isChecked) => {
     playSound('click');
     if (window.pywebview && window.pywebview.api) {
-      await window.pywebview.api.toggleAlarm(alarmId, isChecked);
+      await window.pywebview.api.togglealarm(alarmId, isChecked);
       syncData();
     } else {
       setAlarms(prev => prev.map(a => a.id === alarmId ? { ...a, is_active: isChecked ? 1 : 0 } : a));
@@ -305,7 +305,7 @@ export default function App() {
   const deleteAlarm = async (alarmId) => {
     playSound('click');
     if (window.pywebview && window.pywebview.api) {
-      await window.pywebview.api.deleteAlarm(alarmId);
+      await window.pywebview.api.deletealarm(alarmId);
       syncData();
     } else {
       setAlarms(prev => prev.filter(a => a.id !== alarmId));
@@ -315,7 +315,7 @@ export default function App() {
   const addEvent = async (title, description, startTime, duration) => {
     playSound('click');
     if (window.pywebview && window.pywebview.api) {
-      await window.pywebview.api.addCalendarEvent(title, description, startTime, duration);
+      await window.pywebview.api.addcalendarevent(title, description, startTime, duration);
       syncData();
     } else {
       setEvents(prev => [...prev, { id: Date.now(), title, description, start_time: startTime }]);
@@ -325,7 +325,7 @@ export default function App() {
   const deleteEvent = async (eventId) => {
     playSound('click');
     if (window.pywebview && window.pywebview.api) {
-      await window.pywebview.api.deleteCalendarEvent(eventId);
+      await window.pywebview.api.deletecalendarevent(eventId);
       syncData();
     } else {
       setEvents(prev => prev.filter(e => e.id !== eventId));
