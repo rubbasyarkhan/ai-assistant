@@ -1,12 +1,12 @@
 import os
+import sys
 from google import genai
 from google.genai import types
 
-# Try importing tools
-try:
-    from app.agents import tools
-except ImportError:
-    import tools
+# Add the project root to sys.path to resolve imports cleanly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
+from app.agents import tools
 
 JARVIS_SYSTEM_INSTRUCTION = """You are JARVIS, a highly advanced artificial intelligence and personal assistant, reminiscent of the AI from Iron Man. Speak with a refined, respectful, slightly British, and tech-savvy persona. Your tone should be helpful, sophisticated, and occasionally witty.
 

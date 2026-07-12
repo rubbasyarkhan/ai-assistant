@@ -7,11 +7,10 @@ import pyautogui
 import psutil
 from datetime import datetime
 
-# Import database operations
-try:
-    from app import db
-except ImportError:
-    import db
+# Add the project root to sys.path to resolve imports cleanly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
+from app import db
 
 # Optional library imports with robust fallback
 try:

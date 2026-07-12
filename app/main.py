@@ -5,13 +5,11 @@ import webview
 import threading
 import time
 
-try:
-    from app import db
-    from app.agents import agent, tools
-except ImportError:
-    import db
-    import agents.agent as agent
-    import agents.tools as tools
+# Add the project root to sys.path to resolve imports cleanly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from app import db
+from app.agents import agent, tools
 
 # Define PyWebview JavaScript API Bridge
 class JarvisAPI:
