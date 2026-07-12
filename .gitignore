@@ -1,0 +1,38 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python caching
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node.js dependencies
+node_modules/
+frontend/node_modules/
+
+# Compiled files and PyInstaller builds
+build/
+dist/
+*.spec
+app/static/
+
+# Databases
+*.db
+app/jarvis.db
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+frontend/.env
+frontend/.env.local
